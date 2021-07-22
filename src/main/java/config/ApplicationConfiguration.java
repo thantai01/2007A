@@ -22,6 +22,8 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
+import service.expense.ExpenseServiceImpl;
+import service.expense.IExpenseService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -33,7 +35,6 @@ import java.util.Properties;
 @EnableTransactionManagement // đánh dấu dự án có hỗ trợ transaction
 @EnableJpaRepositories("repository") // đánh dấu dự án có sử dụng jpa repository và đường dẫn
 @ComponentScan("controller")// cho Spring biết phải tìm controller ở đâu
-
 public class ApplicationConfiguration implements WebMvcConfigurer, ApplicationContextAware {
 
     private ApplicationContext applicationContext; // khai báo 1 Spring Container
@@ -79,7 +80,7 @@ public class ApplicationConfiguration implements WebMvcConfigurer, ApplicationCo
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
-        em.setPackagesToScan("com.codegym.model"); // cung cấp vị trí các model mà EntityManager cần tạo
+        em.setPackagesToScan("model"); // cung cấp vị trí các model mà EntityManager cần tạo
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
@@ -116,5 +117,8 @@ public class ApplicationConfiguration implements WebMvcConfigurer, ApplicationCo
 //    public void addFormatters(FormatterRegistry registry) {
 //        registry.addFormatter(new ProvinceFormatter(applicationContext.getBean(ProvinceService.class)));
 //    }
-
+    @Bean
+    public IExpenseService expenseService() {
+        return new ExpenseServiceImpl();
+    }
 }

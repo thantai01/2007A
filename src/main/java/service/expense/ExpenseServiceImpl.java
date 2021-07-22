@@ -19,8 +19,7 @@ public class ExpenseServiceImpl implements IExpenseService{
 
     @Override
     public Optional<Expense> findById(Long id) {
-        Optional<Expense> expense = iExpenseRepository.findById(id);
-        return Optional.empty();
+        return iExpenseRepository.findById(id);
     }
 
     @Override

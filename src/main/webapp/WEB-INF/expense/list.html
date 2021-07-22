@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Expense Management Site</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        table tr {
+            text-align: center;
+        }
+        form {
+            background-color: #bfb6b6;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row" style="height: 200px"></div>
+    <div class="row"></div>
+    <div class="row">
+        <div class="col-4">
+            <div class="mb-3">
+                <form method="get" action="/expense-manager/create">
+                    <label for="type" class="form-label"><strong>Type</strong></label>
+                    <select id="type" name="type" class="form-select">
+                        <option value="0" name="type"> For Study </option>
+                        <option value="1" name="type"> For Daily </option>
+                        <option value="2" name="type"> For Work </option>
+                        <option value="3" name="type"> Other </option>
+                    </select>
+                    <div class="mb-3">
+                        <label for="name" class="form-label"><strong>Expense Name</strong></label>
+                        <input type="text" class="form-control" id="name" name="name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="payment" class="form-label"><strong>Payment</strong></label>
+                        <input type="text" class="form-control" id="payment" name="payment">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlTextarea1" class="form-label"><strong>Description</strong></label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="description" style="resize:none"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-light">Submit</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-8">
+            <table class="table table-striped table-bordered border-light">
+                <tr class="table-primary">
+                    <th>#</th>
+                    <th>Type</th>
+                    <th>Time</th>
+                    <th>Name</th>
+                    <th>Payment</th>
+                    <th></th>
+                </tr>
+                <tr th:each="ex,exStat : ${expenses}">
+                    <td th:text="${exStat.index}"></td>
+                    <td th:switch="${ex.type}">
+                        <p th:case="0">For Study</p>
+                        <p th:case="1">For Daily</p>
+                        <p th:case="2">For Work</p>
+                        <p th:case="3">Other</p>
+                    </td>
+                    <td th:text="${ex.time}"></td>
+                    <td th:text="${ex.name}"></td>
+                    <td th:text="${ex.paid}"></td>
+                    <td>
+                        <a th:href="@{/expense-manager/{id}/detail(id=${ex.getId()})}">Detail</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</html>
