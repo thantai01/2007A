@@ -21,7 +21,7 @@
     <div class="row">
         <div class="col-4">
             <div class="mb-3">
-                <form method="get" action="/expense-manager/create">
+                <form method="post" action="/expense-manager/create" th:object="expense">
                     <label for="type" class="form-label"><strong>Type</strong></label>
                     <select id="type" name="type" class="form-select">
                         <option value="0" name="type"> For Study </option>
@@ -70,7 +70,16 @@
                         <a th:href="@{/expense-manager/{id}/detail(id=${ex.getId()})}">Detail</a>
                     </td>
                 </tr>
+                <tr>
+                </tr>
             </table>
+            <td>
+                <div>
+                    <a th:href="@{'/expense-manager/page-demo'(page=${expenses.number - 1})}" th:if="${expenses.hasPrevious()}">Previous</a>
+                    <span th:text="${expenses.number + 1}"></span>/<span th:text="${expenses.totalPages}"></span>
+                    <a th:href="@{'/expense-manager/page-demo'(page=${expenses.number + 1})}" th:if="${expenses.hasNext()}">Next</a>
+                </div>
+            </td>
         </div>
     </div>
 </div>

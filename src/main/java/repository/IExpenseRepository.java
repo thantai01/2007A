@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IExpenseRepository extends CrudRepository<Expense,Long> {
+
 }

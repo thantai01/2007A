@@ -2,7 +2,10 @@ package service.expense;
 
 import model.Expense;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import repository.IExpensePaging;
 import repository.IExpenseRepository;
 
 import java.util.Optional;
@@ -11,6 +14,8 @@ import java.util.Optional;
 public class ExpenseServiceImpl implements IExpenseService{
     @Autowired
     private IExpenseRepository iExpenseRepository;
+    @Autowired
+    private IExpensePaging iExpensePaging;
 
     @Override
     public Iterable<Expense> findAll() {
@@ -30,5 +35,9 @@ public class ExpenseServiceImpl implements IExpenseService{
     @Override
     public void remove(Long id) {
         iExpenseRepository.deleteById(id);
+    }
+
+    public Page<Expense> showPageList(Pageable pageable) {
+        return iExpensePaging.findAll(pageable);
     }
 }

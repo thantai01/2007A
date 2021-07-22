@@ -1,16 +1,18 @@
 model/Expense.java
  model.Expense
-service/expense/IExpenseService.java
- service.expense.IExpenseService
 service/IManagerService.java
  service.IManagerService
 repository/IExpenseRepository.java
  repository.IExpenseRepository
 config/ApplicationConfiguration.java
  config.ApplicationConfiguration
-config/ApplicationInitialize.java
- config.ApplicationInitialize
 service/expense/ExpenseServiceImpl.java
  service.expense.ExpenseServiceImpl
+config/ApplicationInitialize.java
+ config.ApplicationInitialize
+service/expense/IExpenseService.java
+ service.expense.IExpenseService
+repository/IExpensePaging.java
+ repository.IExpensePaging
 controller/ExpenseController.java
  controller.ExpenseController

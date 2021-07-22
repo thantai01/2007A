@@ -2,13 +2,14 @@ package controller;
 
 import model.Expense;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import service.expense.ExpenseServiceImpl;
 import service.expense.IExpenseService;
 
 import javax.jws.WebParam;
@@ -24,6 +25,9 @@ public class ExpenseController {
     @Autowired
     private IExpenseService expenseService;
 
+    @Autowired
+    private ExpenseServiceImpl expenseServiceImpl;
+
     @GetMapping("")
     public ModelAndView expenseList() {
         ModelAndView modelAndView = new ModelAndView("expense/list");
@@ -32,11 +36,11 @@ public class ExpenseController {
         modelAndView.addObject("expenses",expenseList);
         return modelAndView;
     }
-    @GetMapping("/create")
-    public String createExpense(@RequestParam int type, String name,double payment,String description) {
-        expenseService.save(new Expense(type,name,payment,description));
-        return "redirect:/expense-manager";
-    }
+//    @GetMapping("/create")
+//    public String createExpense(@RequestParam int type, String name,double payment,String description) {
+//        expenseService.save(new Expense(type,name,payment,description));
+//        return "redirect:/expense-manager";
+//    }
     @GetMapping("{id}/detail")
     public String expenseDetail(@PathVariable long id, Model model) {
         Optional<Expense> expense = expenseService.findById(id);
@@ -48,5 +52,16 @@ public class ExpenseController {
             return "expense/list";
         }
     }
-
+    @GetMapping("/page-demo")
+    public ModelAndView listInPage(@PageableDefault(size = 7) Pageable pageable) {
+        Page<Expense> expensePage = expenseServiceImpl.showPageList(pageable);
+        ModelAndView modelAndView = new ModelAndView("expense/list");
+        modelAndView.addObject("expenses",expensePage);
+        return modelAndView;
+    }
+    @PostMapping("/create")
+    public String createEx(Expense expense) {
+        expenseService.save(expense);
+        return "redirect:/expense-manager/page-demo";
+    }
 }
